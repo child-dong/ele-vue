@@ -1,0 +1,41 @@
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin after1px($color) {
+  &:after{
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    background-color: $color;
+  }
+}
+
+@mixin beyond-hide($num){
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $num;
+  -webkit-box-orient: vertical;
+}
+
+@mixin pic2x($img){
+  background-image: url($img+'@3x.png');
+  @media (-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2){
+    background-image: url($img+'@2x.png');
+  }
+  @media (-webkit-min-device-pixel-ratio: 3),(min-device-pixel-ratio: 3){
+    background-image: url($img+'@3x.png');
+  }
+}
