@@ -12,9 +12,8 @@
 		  	<router-link to="/seller">商家</router-link>
 		  </div>
 	  </div>
-		
 	  <router-view></router-view>
-	
+		<shopcart></shopcart>
   </div>
 
 </template>
@@ -22,6 +21,7 @@
 <script>
 
 	import iheader from "./components/header/header.vue";
+	import shopcart from "./components/shopcart/shopcart.vue";
 	export default {
 	  name: 'app',
 	  data() {
@@ -36,6 +36,7 @@
 	  },
 	  components: {
 	  	iheader: iheader,
+	  	shopcart: shopcart
 	  }
 	}
 </script>
@@ -64,13 +65,6 @@
 				}
 	  	}
 	  }
-	  .footer-wrapper{
-			height: 100px;
-			width: 100%;
-			background: red;
-			position: absolute;
-			bottom: 0;
-			left: 0;
-	  }
+		
 	}
 </style>

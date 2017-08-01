@@ -32,7 +32,7 @@
 				<div class="detail">
 					<h2>{{seller.name}}</h2>
 					<div class="star">
-						<star :star="seller.score"></star>
+						<star :star="seller.score" :size="size24"></star>
 					</div>
 					<div class="title">
 						<div class="line"></div>
@@ -73,8 +73,9 @@
 		},
 		data(){
 			return{
-				seen: true,
-				big: "big"
+				seen: false,
+				big: "big",
+				size24: "star24"
 			}
 		},
 		methods:{
@@ -99,7 +100,7 @@
 		position: relative;
 		background-color: rgba(7,17,27,0.5);
 		.content{
-			padding: 24px 12px 18px 24px;
+			padding: 24px 5px 18px 24px;
 			.avatar{
 				overflow: hidden;			
 				img{
