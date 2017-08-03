@@ -12,8 +12,8 @@
 		  	<router-link to="/seller">商家</router-link>
 		  </div>
 	  </div>
-	  <router-view></router-view>
-		<shopcart></shopcart>
+	  <router-view :seller="seller"></router-view>	  	
+		<!-- <shopcart :delivery="seller.deliveryPrice" :minPrice="seller.minPrice"></shopcart> -->
   </div>
 
 </template>
@@ -21,7 +21,7 @@
 <script>
 
 	import iheader from "./components/header/header.vue";
-	import shopcart from "./components/shopcart/shopcart.vue";
+	// import shopcart from "./components/shopcart/shopcart.vue";
 	export default {
 	  name: 'app',
 	  data() {
@@ -36,7 +36,7 @@
 	  },
 	  components: {
 	  	iheader: iheader,
-	  	shopcart: shopcart
+	  	// shopcart: shopcart
 	  }
 	}
 </script>

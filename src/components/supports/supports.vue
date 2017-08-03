@@ -90,5 +90,44 @@
 				}
 			}
 		}
+		&.supports3{
+			li{
+				position: relative;
+				margin-bottom: 0;
+				padding: 16px 12px;
+				line-height: 16px;
+				font-size: 12px;
+				font-weight: 200;
+				color: rgb(7,17,27);
+				@include after1px(rgba(7,17,27,0.1));
+				&:last-child{
+					&:after{
+						display: none;
+					}
+				}
+				.icon{
+					float: left;
+					margin-right: 6px;
+					width: 16px;
+					height: 16px;
+					background-size: cover;
+					&.decrease{
+						@include pic2x(decrease_3);
+					}
+					&.discount{
+						@include pic2x(discount_3);
+					}
+					&.guarantee{
+						@include pic2x(guarantee_3);
+					}
+					&.invoice{
+						@include pic2x(invoice_3);
+					}
+					&.special{
+						@include pic2x(special_3);
+					}
+				}
+			}
+		}
 	}
 </style>

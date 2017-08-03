@@ -26,20 +26,32 @@
 									</dd>
 									<dd class="price">￥{{item.price}} <del v-if="item.oldPrice!=''">￥{{item.oldPrice}}</del></dd>
 								</dl>
+								<div class="cartcontrol-wrapper">
+									<cartcontrol :foods="item"></cartcontrol>
+								</div>
 						</li>
 					</ul>
 				</li>
 			</ul>
 		</div>
+		<shopcart :delivery="seller.deliveryPrice" :minPrice="seller.minPrice" :selectFoods="selectFoods"></shopcart>
   </div>
 </template>
 
 <script>
 	import bScroll from 'better-scroll';
+	import shopcart from "../shopcart/shopcart.vue";
+	import cartcontrol from "../cartcontrol/cartcontrol.vue";
+
 	export default {
+		props:{
+			seller:{
+				return:Object
+			}
+		},
 		data(){
 			return{
-				goods: Object,
+				goods: [],
 				listHeight: [],
 				scrollY: 0,
 			}
@@ -60,7 +72,8 @@
 	  			click: true
 	  		})
 	  		this.foodScroll = new bScroll(this.$refs.foodsWrapper,{
-	  			probeType: 3
+	  			probeType: 3,
+	  			click: true
 	  		})
 	  		this.foodScroll.on("scroll",(pos)=>{
 	  			this.scrollY = Math.abs(Math.floor(pos.y));
@@ -94,7 +107,23 @@
 	  				return i;
 	  			}
 	  		}
+  			return 0
+	  	},
+	  	selectFoods(){
+	  		let foodList = [];
+	  		this.goods.forEach((good) => {
+	  			good.foods.forEach((food) => {
+	  				if(food.count){
+	  					foodList.push(food)
+	  				}
+	  			})
+	  		})
+  			return foodList
 	  	}
+	  },
+	  components: {
+	  	shopcart: shopcart,
+	  	cartcontrol: cartcontrol
 	  }
 	}
 </script>
@@ -107,7 +136,8 @@
 		position: absolute;
 		top: 175px;
 		left: 0;
-		bottom: 48px;
+		bottom: 0;
+		padding-bottom: 48px;
 		display: flex;
 		width: 100%;
 		overflow: hidden;
@@ -214,6 +244,11 @@
 										}
 									}
 								}
+							}
+							.cartcontrol-wrapper{
+								position: absolute;
+								right: 0;
+								bottom: 0;
 							}
 						}
 					}

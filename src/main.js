@@ -30,7 +30,7 @@ const router = new VueRouter({
 })
 
 /* eslint-disable no-new */
-new Vue({
+var app = new Vue({
   el: '#app',
   router,
   template: '<App/>',

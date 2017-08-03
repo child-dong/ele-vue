@@ -22,6 +22,19 @@
   }
 }
 
+@mixin before1px($color) {
+  &:after{
+    display: block;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    background-color: $color;
+  }
+}
+
 @mixin beyond-hide($num){
   overflow: hidden;
   text-overflow: ellipsis;

@@ -57,8 +57,8 @@
 	  }
 	  &.star24{
 	  	.star-item{  
-		  	width: 24px;
-		    height: 24px;		
+		  	width: 18px;
+		    height: 18px;		
 			  &.on{
 			   	@include pic2x(star24_on);
 			  }
@@ -71,9 +71,10 @@
 	  	}
 	  }
 	  &.star36{
-	  	.star-item{  
-	  		width: 36px;
-		    height: 36px;		
+	  	.star-item{ 
+	  		margin-right: 6px; 
+	  		width: 14px;
+		    height: 14px;		
 			  &.on{
 			   	@include pic2x(star36_on);
 			  }
@@ -87,8 +88,9 @@
 	  }
 	  &.star48{
 	  	.star-item{ 
-	  		width: 48px;
-		    height: 48px; 		
+	  		margin-right: 4px;
+	  		width: 10px;
+		    height: 10px; 		
 			  &.on{
 			   	@include pic2x(star48_on);
 			  }
