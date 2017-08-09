@@ -44,6 +44,7 @@
 <style lang="scss" scoped>
 	@import './components/common/common.scss';
 	#app{
+		height: 100%;
 	  .tab{
 	  	position: relative;
 	  	display: flex;

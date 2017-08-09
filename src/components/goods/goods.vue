@@ -12,10 +12,10 @@
 		</div>
 		<div class="foods-wrapper" ref="foodsWrapper">
 			<ul>
-				<li v-for="item in goods" class="food-list-hook">
-					<h2 class="title">{{item.name}}</h2>
+				<li v-for="(i,index1) in goods" class="food-list-hook">
+					<h2 class="title">{{i.name}}</h2>
 					<ul>
-						<li class="foods after1px" v-for="item in item.foods">
+						<li class="foods after1px" v-for="(item,index) in i.foods" @click="choiceFood(item,$event)">
 								<img class="pull-left" :src="item.icon" alt="">
 								<dl>
 									<dt>{{item.name}}</dt>
@@ -27,21 +27,36 @@
 									<dd class="price">￥{{item.price}} <del v-if="item.oldPrice!=''">￥{{item.oldPrice}}</del></dd>
 								</dl>
 								<div class="cartcontrol-wrapper">
-									<cartcontrol :foods="item"></cartcontrol>
+									<cartcontrol :food="item"></cartcontrol>
 								</div>
 						</li>
 					</ul>
 				</li>
 			</ul>
 		</div>
+		<!-- <div class="specific-wrapper" v-show="specificShow">
+			<img :src="sItem.icon" alt="" @click="specificShow=!specificShow">
+			<div class="spFood">			
+				<h2 class="spTitle">{{sItem.name}}</h2>
+				<p class="spDesc" v-if="sItem.description">{{sItem.description}}</p>
+				<p class="spSell"><span>月售{{sItem.sellCount}}份</span> <span>好评率{{sItem.rating}}%</span></p>
+				<p class="spPrice"><span></span>￥{{sItem.price}}<del v-if="sItem.oldPrice">￥{{sItem.oldPrice}}</del></p>
+				<p class="join" @click="_join">加入购物车</p>
+			</div>
+		</div> -->
+		<div class="food-wrapper">
+			<foods :food="food" ref="food"></foods>
+		</div>
 		<shopcart :delivery="seller.deliveryPrice" :minPrice="seller.minPrice" :selectFoods="selectFoods"></shopcart>
   </div>
 </template>
 
 <script>
+	import foods from "../foods/foods.vue";
 	import bScroll from 'better-scroll';
 	import shopcart from "../shopcart/shopcart.vue";
 	import cartcontrol from "../cartcontrol/cartcontrol.vue";
+	import Vue from 'vue';
 
 	export default {
 		props:{
@@ -51,6 +66,9 @@
 		},
 		data(){
 			return{
+				food: Array,
+				// sItem: String,
+				// specificShow: false,
 				goods: [],
 				listHeight: [],
 				scrollY: 0,
@@ -67,6 +85,29 @@
   		this.classMap = ['decrease','special','discount','invoice','guarantee'];
 	  },
 	  methods:{
+	  	// _info(index1,index){
+	  	// 	if(!this.specificShow){
+	  	// 		this.specificShow = true;
+	  	// 		this.sItem = this.goods[index1].foods[index]
+	  	// 	}
+	  	// },
+	  	// _join(){
+	  	// // 	if(!event._constructed){
+				// // 	return
+				// // }
+				// if(!this.sItem.count){
+				// 	Vue.set(this.sItem,'count',1)
+				// }else{
+				// 	this.sItem.count++
+				// }
+	  	// },
+	  	choiceFood(item,event){
+	  		if(!event._constructed){
+					return
+				}
+				this.food = item;
+				this.$refs.food.show()
+	  	},
 	  	_initScroll(){
 	  		this.menuScroll = new bScroll(this.$refs.menuWrapper,{
 	  			click: true
@@ -123,7 +164,8 @@
 	  },
 	  components: {
 	  	shopcart: shopcart,
-	  	cartcontrol: cartcontrol
+	  	cartcontrol: cartcontrol,
+	  	foods: foods
 	  }
 	}
 </script>
@@ -252,6 +294,62 @@
 							}
 						}
 					}
+				}
+			}
+		}
+		.specific-wrapper{
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: white;
+			img{
+				width: 100%;
+				height: 375px;
+			}
+			.spFood{
+				position: relative;
+				padding: 18px;
+				.spTitle{
+					line-height: 14px;
+					font-size: 14px;
+					font-weight: 700;
+					color: rgb(7,17,27);
+				}
+				.spDesc{
+					margin: 8px 0 18px 0;
+					line-height: 10px;
+				}
+				.spSell{
+					margin: 8px 0 18px 0;
+					line-height: 10px;
+					font-size: 10px;
+					color: rgb(147,153,159);
+					span{
+						margin-right: 12px;
+					}
+				}
+				.spPrice{
+					line-height: 24px;
+					font-size: 14px;
+					font-weight: 700;
+					color: rgb(240,20,20);
+					del{
+						font-size: 10px;
+						color: rgb(147,153,159);
+					}
+				}
+				.join{
+					position: absolute;
+					bottom: 18px;
+					right: 18px;
+					padding: 6px 12px;
+					line-height: 12px;
+					font-size: 10px;
+					color: rgb(255,255,255);
+					border-radius: 12px;
+					background-color: rgb(0,160,220);
 				}
 			}
 		}

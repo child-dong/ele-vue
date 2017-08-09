@@ -1,9 +1,9 @@
 <template>
   <div class="cartcontrol">
 
-		<span class="icon-remove_circle_outline" v-if="foods.count" @click="reduce($event)"></span>
-		<span class="num" v-if="foods.count">{{foods.count}}</span>
-		<span class="icon-add_circle" @click="add($event)"></span>
+		<span class="icon-remove_circle_outline" v-show="food.count>0" @click.stop.prevent="reduce($event)"></span>
+		<span @click="cons" class="num" v-show="food.count>0">{{food.count}}</span>
+		<span class="icon-add_circle" @click.stop.prevent="add($event)"></span>
   </div>
 </template>
 
@@ -12,26 +12,29 @@
 	import Vue from 'vue';
 	export default {
 		props:{
-			foods:{
+			food:{
 				return: Object
 			}
 		},
 		methods: {
+			cons(){		
+				console.log(this.food.count)
+			},
 			add(event){
 				if(!event._constructed){
 					return
 				}
-				if(!this.foods.count){
-					Vue.set(this.foods,'count',1)
+				if(!this.food.count){
+					Vue.set(this.food,'count',1)
 				}else{
-					this.foods.count++
+					this.food.count++
 				}
 			},
 			reduce(event){
 				if(!event._constructed){
 					return false
 				}
-				this.foods.count--
+				this.food.count--
 			}
 		},
 		// computed:{

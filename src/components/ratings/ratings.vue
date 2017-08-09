@@ -1,78 +1,81 @@
 <template>
-  <div class="ratings">
-   	<div class="score-wrapper">
-   		<div class="overallRating">
-   			<dl class="border1px">
-   				<dt>{{seller.score}}</dt>
-   				<dd class="desc">综合评分</dd>
-   				<dd class="rankrate">高于周边商家{{seller.rankRate}}%</dd>
-   			</dl>
-   		</div>
-   		<div class="service">
-   			<div class="attitude">
-   				<ul>		
-	   				<li>服务态度</li>
-						<li>
-							<star :star="seller.serviceScore" :size="size"></star>
-						</li>
-						<li>{{seller.serviceScore}}</li>
-   				</ul>
-   				<ul>		
-	   				<li>食物评分</li>
-						<li>
-							<star :star="seller.foodScore" :size="size"></star>
-						</li>
-						<li>{{seller.foodScore}}</li>
-   				</ul>
-   				<ul>		
-	   				<li>送达时间</li>
-						<li class="deliveryTime">{{seller.deliveryTime}}分钟</li>
-   				</ul>
-   			</div>
-   		</div>
+  <div class="ratings" ref="ratingsScroll">
+  	<div class="content">
+	   	<div class="score-wrapper">
+	   		<div class="overallRating">
+	   			<dl class="border1px">
+	   				<dt>{{seller.score}}</dt>
+	   				<dd class="desc">综合评分</dd>
+	   				<dd class="rankrate">高于周边商家{{seller.rankRate}}%</dd>
+	   			</dl>
+	   		</div>
+	   		<div class="service">
+	   			<div class="attitude">
+	   				<ul>		
+		   				<li>服务态度</li>
+							<li>
+								<star :star="seller.serviceScore" :size="size"></star>
+							</li>
+							<li>{{seller.serviceScore}}</li>
+	   				</ul>
+	   				<ul>		
+		   				<li>食物评分</li>
+							<li>
+								<star :star="seller.foodScore" :size="size"></star>
+							</li>
+							<li>{{seller.foodScore}}</li>
+	   				</ul>
+	   				<ul>		
+		   				<li>送达时间</li>
+							<li class="deliveryTime">{{seller.deliveryTime}}分钟</li>
+	   				</ul>
+	   			</div>
+	   		</div>
+	   	</div>
+	   	<div class="gap after1px"></div>
+	   	<div class="satisfaction-wrapper after1px" v-if="ratings">
+	   		<ul>
+	   			<li @click="all">全部<span>{{ratings.length}}</span></li>
+	   			<li @click="satis">满意<span>{{leng}}</span></li>
+	   			<li @click="unsatis">不满意<span>{{unleng}}</span></li>
+	   		</ul>
+	   	</div>
+	   	<div class="select" @click="textShow">
+	   		<i class="icon-check_circle" :class="className"></i>
+	   		<span>只看有内容的评价</span>
+	   	</div>
+	   	<div class="reviews-wrapper" v-if="ratings">
+	   		<ul class="reviews">
+	   			<li class="reviews-list" v-for="item in ratings" v-if="item.text.length>text&&item.rateType>ratetype&&item.rateType<ratetype2">
+	   				<img class="avatar" :src="item.avatar" alt="">
+	   				<div class="content">
+	   					<p class="username">{{item.username}}</p>
+	   					<p class="star">
+	   						<span><star :star="item.score" :size="sizeSmall"></star></span>
+	   						<span class="deliveryTime" v-if="item.deliveryTime">{{item.deliveryTime}}分钟送达</span>
+	   					</p>
+	   					<p class="text">
+	   						{{item.text}}
+	   					</p>
+	   					<div class="thumb clearfix">
+	   						<i class="icon-thumb_up pull-left" v-if="item.rateType===0"></i>
+	   						<i class="icon-thumb_down pull-left" v-else></i>
+	   						<ul class="pull-left" v-if="item.recommend">
+	   							<li class="foods-type pull-left" v-for="(item,index) in item.recommend" v-if="index<3">{{item}}</li>
+	   						</ul>
+	   					</div>
+	   				</div>		
+	   			</li>
+	   		</ul>
+	  	</div>
+	   	<shopcart :delivery="seller.deliveryPrice" :minPrice="seller.minPrice">
+	   	</shopcart>
    	</div>
-   	<div class="gap after1px"></div>
-   	<div class="satisfaction-wrapper after1px">
-   		<ul>
-   			<li @click="all">全部<span>{{ratings.length}}</span></li>
-   			<li @click="satis">满意<span>{{leng}}</span></li>
-   			<li @click="unsatis">不满意<span>{{unleng}}</span></li>
-   		</ul>
-   	</div>
-   	<div class="select" @click="textShow">
-   		<i class="icon-check_circle" :class="className"></i>
-   		<span>只看有内容的评价</span>
-   	</div>
-   	<div class="reviews-wrapper">
-   		<ul class="reviews" v-if="ratings">
-   			<li class="reviews-list" v-for="item in ratings" v-if="item.text.length>text&&item.rateType>ratetype&&item.rateType<ratetype2">
-   				<img class="avatar" :src="item.avatar" alt="">
-   				<div class="content">
-   					<p class="username">{{item.username}}</p>
-   					<p class="star">
-   						<span><star :star="item.score" :size="sizeSmall"></star></span>
-   						<span class="deliveryTime" v-if="item.deliveryTime">{{item.deliveryTime}}分钟送达</span>
-   					</p>
-   					<p class="text">
-   						{{item.text}}
-   					</p>
-   					<div class="thumb clearfix">
-   						<i class="icon-thumb_up pull-left" v-if="item.rateType===0"></i>
-   						<i class="icon-thumb_down pull-left" v-else></i>
-   						<ul class="pull-left" v-if="item.recommend">
-   							<li class="foods-type pull-left" v-for="(item,index) in item.recommend" v-if="index<3">{{item}}</li>
-   						</ul>
-   					</div>
-   				</div>		
-   			</li>
-   		</ul>
-   	</div>
-   	<shopcart :delivery="seller.deliveryPrice" :minPrice="seller.minPrice">
-   	</shopcart>
   </div>
 </template>
 
 <script>
+	import bScroll from 'better-scroll';
   import star from "../star/star.vue"
   import shopcart from "../shopcart/shopcart.vue";
 
@@ -100,9 +103,19 @@
 	  		this.ratings = response.body.data;
 	  		this.satisfaction()
 	  		this.displeasure()
+	  		this.$nextTick(() => {
+	  			this._initScroll()
+	  		})
 	  	})
 		},
 		methods:{
+			_initScroll(){
+	  		this.ratingsScroll = new bScroll(this.$refs.ratingsScroll,{
+	  			click: true,
+	  			startY: true
+	  		})
+				this.ratingsScroll.refresh()
+	  	},
 			satisfaction(){
 				for(let i=0;i<this.ratings.length;i++){
 					if(this.ratings[i].rateType==0){
@@ -154,6 +167,8 @@
 	@import '../common/common.scss';
 	.ratings{
 		position: relative;
+		height: 492px;
+		overflow: hidden;
 		.score-wrapper{
 			position: relative;
 			display: flex;
